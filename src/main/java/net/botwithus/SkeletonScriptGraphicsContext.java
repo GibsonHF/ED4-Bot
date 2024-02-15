@@ -7,24 +7,27 @@ import net.botwithus.rs3.script.ScriptGraphicsContext;
 
 public class SkeletonScriptGraphicsContext extends ScriptGraphicsContext {
 
-    private SkeletonScript script;
+    private MainScript script;
 
-    public SkeletonScriptGraphicsContext(ScriptConsole scriptConsole, SkeletonScript script) {
+    public SkeletonScriptGraphicsContext(ScriptConsole scriptConsole, MainScript script) {
         super(scriptConsole);
         this.script = script;
     }
 
     @Override
     public void drawSettings() {
-        if (ImGui.Begin("My script", ImGuiWindowFlag.None.getValue())) {
+        if (ImGui.Begin("ED4 Bot", ImGuiWindowFlag.None.getValue())) {
             if (ImGui.BeginTabBar("My bar", ImGuiWindowFlag.None.getValue())) {
                 if (ImGui.BeginTabItem("Settings", ImGuiWindowFlag.None.getValue())) {
-                    ImGui.Text("Welcome to my script!");
+                    script.runScript = ImGui.Checkbox("Run script", script.runScript);
                     ImGui.Text("My scripts state is: " + script.getBotState());
+                    if(ImGui.Button("Set State past portal (DEBUG)"))
+                    {
+                        script.setBotState(MainScript.BotState.ATED4);
+                    }
                     ImGui.EndTabItem();
                 }
-                if (ImGui.BeginTabItem("Other", ImGuiWindowFlag.None.getValue())) {
-                    script.setSomeBool(ImGui.Checkbox("Are you cool?", script.isSomeBool()));
+                if (ImGui.BeginTabItem("Statistics", ImGuiWindowFlag.None.getValue())) {
                     ImGui.EndTabItem();
                 }
                 ImGui.EndTabBar();
