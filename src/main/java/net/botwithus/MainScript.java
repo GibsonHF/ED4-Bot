@@ -2,10 +2,14 @@ package net.botwithus;
 
 import net.botwithus.api.game.hud.Dialog;
 import net.botwithus.api.game.hud.inventories.Backpack;
+import net.botwithus.rs3.game.*;
+import net.botwithus.rs3.game.hud.interfaces.Component;
+import net.botwithus.rs3.game.minimenu.MiniMenu;
+import net.botwithus.rs3.game.minimenu.actions.ComponentAction;
+import net.botwithus.rs3.game.queries.builders.components.ComponentQuery;
+import net.botwithus.rs3.game.queries.builders.items.InventoryItemQuery;
+import net.botwithus.rs3.game.queries.results.ResultSet;
 import net.botwithus.internal.scripts.ScriptDefinition;
-import net.botwithus.rs3.game.Client;
-import net.botwithus.rs3.game.Coordinate;
-import net.botwithus.rs3.game.Travel;
 import net.botwithus.rs3.game.actionbar.ActionBar;
 import net.botwithus.rs3.game.hud.interfaces.Interfaces;
 import net.botwithus.rs3.game.queries.builders.characters.NpcQuery;
@@ -263,7 +267,24 @@ public class MainScript extends LoopingScript {
 
     public void usePontifex()
     {
-        //insert logic here
+        ResultSet<Item> results = InventoryItemQuery.newQuery(93).ids(53032).option("Teleport (Senntisten)").results();
+
+        if (!results.isEmpty()) {
+            Item item = results.first();
+
+            Backpack.interact(item.getName(), 1);
+
+
+//            if (success) {
+//                println("Successfully used Teleport (Senntisten).");
+//            } else {
+//                println("Failed to use Teleport (Senntisten).");
+//            }
+        } else {
+            // Item is not available or does not have the specified option
+            println("Pontifix Ring not found in inventory.");
+        }
+        botState = BotState.WALKTOZAMMY;
     }
     public void moveToSpecificLocation() {
         Coordinate currentLocation = getLocalPlayer().getCoordinate();
@@ -482,4 +503,5 @@ public class MainScript extends LoopingScript {
         }
         return false;
     }
+
 }

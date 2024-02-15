@@ -13,10 +13,23 @@ public class SkeletonScriptGraphicsContext extends ScriptGraphicsContext {
         super(scriptConsole);
         this.script = script;
     }
+    private static float RGBToFloat(int rgbValue) {
+        return rgbValue / 255.0f;
+    }
 
     @Override
     public void drawSettings() {
+        ImGui.PushStyleColor(21, RGBToFloat(47), RGBToFloat(79), RGBToFloat(79), 1.0f); // Button color
+        ImGui.PushStyleColor(18, RGBToFloat(255), RGBToFloat(255), RGBToFloat(255), 1.0f); // Checkbox Tick color
+        ImGui.PushStyleColor(5, RGBToFloat(47), RGBToFloat(79), RGBToFloat(79), 1.0f); // Border Colour
+        ImGui.PushStyleColor(2, RGBToFloat(0), RGBToFloat(0), RGBToFloat(0), 0.9f); // Background color
+        ImGui.PushStyleColor(7, RGBToFloat(47), RGBToFloat(79), RGBToFloat(79), 1.0f); // Checkbox Background color
+        ImGui.PushStyleColor(11, RGBToFloat(47), RGBToFloat(79), RGBToFloat(79), 1.0f); // Header Colour
+        ImGui.PushStyleColor(22, RGBToFloat(64), RGBToFloat(67), RGBToFloat(67), 1.0f); // Highlighted button color
+        ImGui.PushStyleColor(27, RGBToFloat(47), RGBToFloat(79), RGBToFloat(79), 1.0f); //ImGUI separator Colour
+        ImGui.PushStyleColor(30, RGBToFloat(47), RGBToFloat(79), RGBToFloat(79), 1.0f); //Corner Extender colour
         if (ImGui.Begin("ED4 Bot", ImGuiWindowFlag.None.getValue())) {
+            ImGui.PushStyleVar(11, 50.f, 5f);
             if (ImGui.BeginTabBar("My bar", ImGuiWindowFlag.None.getValue())) {
                 if (ImGui.BeginTabItem("Settings", ImGuiWindowFlag.None.getValue())) {
                     script.runScript = ImGui.Checkbox("Run script", script.runScript);
@@ -53,6 +66,7 @@ public class SkeletonScriptGraphicsContext extends ScriptGraphicsContext {
                     {
                         script.setBotState(MainScript.BotState.ATED4);
                     }
+                    ImGui.PopStyleVar(3);
                     ImGui.EndTabItem();
                 }
                 if (ImGui.BeginTabItem("Statistics", ImGuiWindowFlag.None.getValue())) {
@@ -64,6 +78,7 @@ public class SkeletonScriptGraphicsContext extends ScriptGraphicsContext {
                 }
                 ImGui.EndTabBar();
             }
+            ImGui.PopStyleColor(100);
             ImGui.End();
         }
 
