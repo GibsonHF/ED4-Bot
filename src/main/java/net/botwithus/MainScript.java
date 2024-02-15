@@ -226,8 +226,19 @@ public class MainScript extends LoopingScript {
         }
     }
 
+    private boolean isAtMaxGuildBank() {
+        if (getLocalPlayer() != null) {
+            Coordinate myPos = getLocalPlayer().getCoordinate();
+            return myPos.getX() == 2276 && myPos.getY() == 3311;
+        }
+        return false;
+    }
+
     private void LoadMaxGuildPresetLogic() {
+
         if(WalkTo(2276, 3311)) {
+            if(isAtMaxGuildBank())
+            {
             EntityResultSet<Npc> query = NpcQuery.newQuery().name("Banker").results();
             if (!query.isEmpty()) {
                 println("Loading preset!");
@@ -247,6 +258,7 @@ public class MainScript extends LoopingScript {
                 }
 
             }
+        }
         }
     }
 
@@ -432,12 +444,10 @@ public class MainScript extends LoopingScript {
 
     private void acceptDialog() {
             if (Dialog.isOpen()) {
-
                     Dialog.getOptions().forEach(option -> {
                         println(option);
                         if (option == null)
                             return;
-
 
                         if(option.contains("No"))
                         {
