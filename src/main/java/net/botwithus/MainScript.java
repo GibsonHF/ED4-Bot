@@ -284,7 +284,7 @@ public class MainScript extends LoopingScript {
         if (!results.isEmpty()) {
             Item item = results.first();
 
-            Backpack.interact(item.getName(), 1);
+            Backpack.interact(item.getName(), 2);
 
 
 //            if (success) {
@@ -296,23 +296,35 @@ public class MainScript extends LoopingScript {
             // Item is not available or does not have the specified option
             println("Pontifix Ring not found in inventory.");
         }
-        botState = BotState.WALKTOZAMMY;
+
+            botState = BotState.WALKTOZAMMY;
+
     }
+
+    private boolean isAtPontiFexTele() {
+        if (getLocalPlayer() != null) {
+            Coordinate myPos = getLocalPlayer().getCoordinate();
+            return myPos.getX() == 1759 && myPos.getY() == 1261;
+        }
+        return false;
+    }
+
     public void moveToSpecificLocation() {
         Coordinate currentLocation = getLocalPlayer().getCoordinate();
+        if(isAtPontiFexTele()) {
+            if (currentLocation.equals(new Coordinate(1759, 1261, 0))) {
+                Travel.walkTo(new Coordinate(1759, 1292, 0));
+                Execution.delayUntil((30000), () -> Distance.between(getLocalPlayer().getCoordinate(), new Coordinate(1759, 1292, 0)) <= 5);
 
-        if (currentLocation.equals(new Coordinate(1759, 1261, 0))) {
-            Travel.walkTo(new Coordinate(1759, 1292, 0));
-            Execution.delayUntil((30000), () -> Distance.between(getLocalPlayer().getCoordinate(), new Coordinate(1759, 1292, 0)) <= 5);
+                Travel.walkTo(new Coordinate(1747, 1313, 0));
+                Execution.delayUntil((30000), () -> Distance.between(getLocalPlayer().getCoordinate(), new Coordinate(1747, 1313, 0)) <= 5);
 
-            Travel.walkTo(new Coordinate(1747, 1313, 0));
-            Execution.delayUntil((30000), () -> Distance.between(getLocalPlayer().getCoordinate(), new Coordinate(1747, 1313, 0)) <= 5);
-
-            Travel.walkTo(new Coordinate(1760, 1341, 0));
-        } else {
-            println("Player is not at the starting location.");
+                Travel.walkTo(new Coordinate(1760, 1341, 0));
+            } else {
+                println("Player is not at the starting location.");
+            }
+            botState = BotState.ATED4;
         }
-        botState = BotState.ATED4;
     }
     public void FirstWalk() {
         if(WalkTo(CoordX, CoordY)) {

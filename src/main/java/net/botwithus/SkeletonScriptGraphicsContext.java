@@ -66,6 +66,10 @@ public class SkeletonScriptGraphicsContext extends ScriptGraphicsContext {
                     {
                         script.setBotState(MainScript.BotState.ATED4);
                     }
+                    if(ImGui.Button("Set State to Idle (DEBUG)"))
+                    {
+                        script.setBotState(MainScript.BotState.IDLE);
+                    }
                     ImGui.PopStyleVar(3);
                     ImGui.EndTabItem();
                 }
